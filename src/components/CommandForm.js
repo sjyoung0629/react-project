@@ -4,6 +4,7 @@ class CommandForm extends Component {
     state = {
         author: '',
         content: '',
+        time: '',
     }
 
     handleSubmit = (e) => {
@@ -13,11 +14,14 @@ class CommandForm extends Component {
         // author, content 값이 있을때만 댓글 입력하도록 함
         // 향후 button disabled/abled 로 관리
         if (state.author && state.content) {
+            // 댓글 작성한 시간 불러와서 state에 저장
+            this.state.time = new Date().getTime();
             this.props.onCreate(this.state);
             // submit 후 초기화
             this.setState({
                 author: '',
                 content: '',
+                time: '',
             });
         }
     }
