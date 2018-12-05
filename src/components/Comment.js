@@ -1,44 +1,21 @@
 import React, { Component, Fragment } from 'react';
-import CommandForm from './CommentForm';
 import CommentForm from './CommentForm';
+import Like from './Like';
+import FromNow from './FromNow';
 
 class Comment extends Component {
     state = {
-        author: '',
-        content: '',
-        likeCount: 0,
-        time: '',
         editing: false,
         reply: false,
     }
 
-    // 경과시간 계산
-    getTimeAgo = (time) => {
-        const comment_time = time;
-        // 현재 시간 불러와서 차이 계산
-        const cur_time = new Date().getTime();
-        let second = (cur_time - comment_time) / 1000;
-        let day, hour, minute, elapsed;
-
-        if (second > 60) {
-            minute = second / 60;
-            if (minute > 60) {
-                hour = minute / 60;
-                if (hour > 24) {
-                    day = hour / 24;
-                    elapsed = parseInt(day) + "일";
-                } else {
-                    elapsed = parseInt(hour) + "시간";
-                }
-            } else {
-                elapsed = parseInt(minute) + "분";
-            }
-
-        } else {
-            elapsed = "몇 초";
+    // 변경된 부분만 업데이트
+    shouldComponentUpdate(nextProps, nextState) {
+        if(this.state !== nextState){
+            return true;
         }
 
-        return elapsed
+        return this.props.info !== nextProps.info;
     }
 
     // 답글 달기
@@ -46,15 +23,6 @@ class Comment extends Component {
         this.setState({
             reply: !this.state.reply,
         })
-    }
-
-    // '좋아요' 카운트하는 함수
-    likeCmd = () => {
-        let cur_count = this.state.likeCount;
-        cur_count++;
-        this.setState({
-            likeCount: cur_count,
-        });
     }
 
     // editing 값에 따라 수정/적용
@@ -99,7 +67,7 @@ class Comment extends Component {
     }
 
     render() {
-        const {author, content, time} = this.props.info;
+        const {author, content, likes, time} = this.props.info;
         const {editing, reply} = this.state;
 
         return (
@@ -121,23 +89,27 @@ class Comment extends Component {
                     )
                 }
                 <div>
-                    <span>{this.getTimeAgo(time)} 전</span>
-                    <input type="button" value="답글 달기"
-                    onClick={this.inputReply}></input>
-                    <input type="button" value="좋아요"
-                    onClick={this.likeCmd}></input>
-                    <span>{this.state.likeCount}</span>
-                    <input type="button" value={
-                        editing ? "적용" : "수정"
-                    }
-                    onClick={this.handleToggleEdit}></input>
-                    <input type="button" value="삭제"
-                    onClick={this.handleRemove}></input>
+                    <div>
+                        <FromNow time={time}/>
+                        <span>·</span>
+                        <input type="button" className="reply" value="답글 달기"
+                                onClick={this.inputReply} />
+                    </div>
+                    <div>
+                        <Like likes={likes}/>
+                        <span>{this.state.cmtCount}</span>
+                    </div>
+                    <div>
+                        <input type="button" value={editing ? "적용" : "수정"}
+                                onClick={this.handleToggleEdit}></input>
+                        <input type="button" value="삭제"
+                                onClick={this.handleRemove}></input>
+                    </div>
                 </div>
                 {
                     reply && (
                         <Fragment>
-                            <CommentForm />
+                            <CommentForm type="sub"/>
                         </Fragment>
                     )
                 }

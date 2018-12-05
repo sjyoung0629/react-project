@@ -4,10 +4,23 @@ import CommentList from './CommentList';
 
 class CommentView extends Component {
     // 댓글마다 고유한 id값
-    comment_id = 0;
+    comment_id = 2;
 
     state = {
-        information: []
+        information: [{
+            id: 0,
+            author: 'sjyoung',
+            content: '안녕하세요',
+            likes: 0,
+            time: 1544007341933,
+        },
+        {
+            id: 1,
+            author: 'julia',
+            content: '안녕',
+            likes: 2,
+            time: 1544010285042,
+        }]
     }
 
     // 댓글 입력
@@ -33,6 +46,7 @@ class CommentView extends Component {
                             id: id,
                             author: info.author,
                             time: info.time,
+                            likes: info.likes,
                             ...data,
                         };
                     }
@@ -57,7 +71,7 @@ class CommentView extends Component {
                 onUpdate={this.handleUpdate}
                 onRemove={this.handleRemove}/>
                 <hr />
-                <CommentForm onCreate={this.handleCreate}/>
+                <CommentForm type="main" onCreate={this.handleCreate}/>
             </div>
         );
     }
