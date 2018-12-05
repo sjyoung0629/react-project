@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import CommandForm from './CommentForm';
+import CommentForm from './CommentForm';
 
 class Comment extends Component {
     state = {
@@ -8,6 +9,7 @@ class Comment extends Component {
         likeCount: 0,
         time: '',
         editing: false,
+        reply: false,
     }
 
     // 경과시간 계산
@@ -33,8 +35,7 @@ class Comment extends Component {
             }
 
         } else {
-            elapsed = (second > 0) ? parseInt(second) : 0;
-            elapsed += "초";
+            elapsed = "몇 초";
         }
 
         return elapsed
@@ -42,12 +43,9 @@ class Comment extends Component {
 
     // 답글 달기
     inputReply = (e) => {
-        let target = e.target;
-        let parent = target.parentNode;
-        let commentNode = document.createElement("div");
-        parent.appendChild(commentNode);
-        // console.log(commandNode)
-        // parent.appendChild(commandNode);
+        this.setState({
+            reply: !this.state.reply,
+        })
     }
 
     // '좋아요' 카운트하는 함수
@@ -59,22 +57,23 @@ class Comment extends Component {
         });
     }
 
-    // editing 값을 반전시킴
+    // editing 값에 따라 수정/적용
     handleToggleEdit = () => {
         const {info, onUpdate} = this.props;
         if (this.state.editing) {
+            // 수정 모드: 수정된 content값을 업데이트하도록 함
             onUpdate(info.id, {
-                author: this.state.author,
                 content: this.state.content,
             });
 
         } else {
+            // 적용 모드: 수정된(또는 원본) 내용을 가져와서 State에 세팅
             this.setState({
-                author: info.author,
                 content: info.content,
             });
         }
 
+        // editing 값을 반전시킴
         this.setState({
             editing: !this.state.editing,
         })
@@ -86,10 +85,11 @@ class Comment extends Component {
         });
     }
 
-    // 댓글 수정 반영
-    handleUpdate = (id, data) => {
-        const {onUpdate} = this.props;
-        onUpdate(id, data);
+    handleKeyUp = (e) => {
+        // Enter 키 눌렀을 떄 댓글 수정되도록 함
+        if (e.keyCode === 13) {
+            this.handleToggleEdit();
+        }
     }
 
     // 댓글 삭제
@@ -99,26 +99,23 @@ class Comment extends Component {
     }
 
     render() {
-        const {author, content, time, id} = this.props.info;
-        const {editing} = this.state;
+        const {author, content, time} = this.props.info;
+        const {editing, reply} = this.state;
 
         return (
             <div className="comment">
+                <div><b>{author}</b></div>
                 {
                     editing ? (
                         <Fragment>
                             <div>
-                                <input name="author" value={this.state.author}
-                                onChange={this.handleChange} />
-                            </div>
-                            <div>
                                 <input name="content" value={this.state.content}
-                                onChange={this.handleChange} />
+                                onChange={this.handleChange}
+                                onKeyUp={this.handleKeyUp} />
                             </div>
                         </Fragment>
                     ) : (
                         <Fragment>
-                            <div><b>{author}</b></div>
                             <div>{content}</div>
                         </Fragment>
                     )
@@ -137,6 +134,13 @@ class Comment extends Component {
                     <input type="button" value="삭제"
                     onClick={this.handleRemove}></input>
                 </div>
+                {
+                    reply && (
+                        <Fragment>
+                            <CommentForm />
+                        </Fragment>
+                    )
+                }
             </div>
         );
     }

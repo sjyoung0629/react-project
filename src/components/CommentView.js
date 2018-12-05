@@ -31,6 +31,7 @@ class CommentView extends Component {
                     if (info.id === id) {
                         return {
                             id: id,
+                            author: info.author,
                             time: info.time,
                             ...data,
                         };
