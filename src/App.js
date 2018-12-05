@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import CommandView from './components/CommandView';
+import CommentView from './components/CommentView';
 // import logo from './logo.svg';
 // import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <CommandView />
+      <div id="root">
+        <CommentView />
+      </div>
     );
   }
 }

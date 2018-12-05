@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class CommandForm extends Component {
+class CommentForm extends Component {
     state = {
         author: '',
         content: '',
@@ -62,4 +62,4 @@ class CommandForm extends Component {
     }
 }
 
-export default CommandForm;
+export default CommentForm;

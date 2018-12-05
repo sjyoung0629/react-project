@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import CommandForm from './CommandForm';
+import CommandForm from './CommentForm';
 
-class Command extends Component {
+class Comment extends Component {
     state = {
         likeCount: 0,
         time: ''
@@ -9,12 +9,12 @@ class Command extends Component {
 
     // 경과시간 계산
     getTimeAgo = (time) => {
-        let command_time = time;
+        let comment_time = time;
         // 현재 시간 불러와서 차이 계산
         let cur_time = new Date().getTime();
-        let second = (cur_time - command_time) / 1000;
+        let second = (cur_time - comment_time) / 1000;
         let hour, minute, elapsed;
-        // 100초
+
         if (second > 60) {
             minute = second / 60;
             if (minute > 60) {
@@ -36,8 +36,8 @@ class Command extends Component {
     inputReply = (e) => {
         let target = e.target;
         let parent = target.parentNode;
-        let commandNode = document.createElement("div");
-        parent.appendChild(commandNode);
+        let commentNode = document.createElement("div");
+        parent.appendChild(commentNode);
         // console.log(commandNode)
         // parent.appendChild(commandNode);
     }
@@ -51,11 +51,17 @@ class Command extends Component {
         });
     }
 
+    // 댓글 삭제
+    handleRemove = () => {
+        const {info, onRemove} = this.props;
+        onRemove(info.id);
+    }
+
     render() {
-        const {author, content, time, id} = this.props.info;
+        const {author, content, time} = this.props.info;
 
         return (
-            <div class="command">
+            <div className="comment">
                 <div><b>{author}</b></div>
                 <div>{content}</div>
                 <div>
@@ -66,11 +72,12 @@ class Command extends Component {
                     onClick={this.likeCmd}></input>
                     <span>{this.state.likeCount}</span>
                     <input type="button" value="수정"></input>
-                    <input type="button" value="삭제"></input>
+                    <input type="button" value="삭제"
+                    onClick={this.handleRemove}></input>
                 </div>
             </div>
         );
     }
 }
 
-export default Command;
+export default Comment;
