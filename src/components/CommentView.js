@@ -10,6 +10,7 @@ class CommentView extends Component {
         information: []
     }
 
+    // 댓글 입력
     handleCreate = (data) => {
         const {information} = this.state;
         this.setState({
@@ -18,6 +19,25 @@ class CommentView extends Component {
             ...data,
             id: this.comment_id++
           })
+        });
+    }
+
+    // 댓글 수정
+    handleUpdate = (id, data) => {
+        const {information} = this.state;
+        this.setState({
+            information: information.map(
+                info => {
+                    if (info.id === id) {
+                        return {
+                            id: id,
+                            time: info.time,
+                            ...data,
+                        };
+                    }
+                    return info;
+                }
+            )
         });
     }
 
@@ -33,6 +53,7 @@ class CommentView extends Component {
         return (
             <div>
                 <CommentList data={this.state.information}
+                onUpdate={this.handleUpdate}
                 onRemove={this.handleRemove}/>
                 <hr />
                 <CommentForm onCreate={this.handleCreate}/>
