@@ -12,14 +12,14 @@ class CommentView extends Component {
             author: 'sjyoung',
             content: '안녕하세요',
             likes: 0,
-            time: 1544007341933,
+            time: 1544064880438,
         },
         {
             id: 1,
             author: 'julia',
             content: '안녕',
             likes: 2,
-            time: 1544010285042,
+            time: 1544007341933,
         }]
     }
 
@@ -56,6 +56,27 @@ class CommentView extends Component {
         });
     }
 
+    // 좋아요 수 반영
+    updateLikes = (id, likes) => {
+        const {information} = this.state;
+        this.setState({
+            information: information.map(
+                info => {
+                    if (info.id === id) {
+                        return {
+                            id: id,
+                            author: info.author,
+                            content: info.content,
+                            likes: likes,
+                            time: info.time,
+                        };
+                    }
+                    return info;
+                }
+            )
+        })
+    }
+
     // 댓글 삭제
     handleRemove = (id) => {
         const {information} = this.state;
@@ -69,7 +90,8 @@ class CommentView extends Component {
             <div>
                 <CommentList data={this.state.information}
                 onUpdate={this.handleUpdate}
-                onRemove={this.handleRemove}/>
+                onRemove={this.handleRemove}
+                updateLikes={this.updateLikes}/>
                 <hr />
                 <CommentForm type="main" onCreate={this.handleCreate}/>
             </div>

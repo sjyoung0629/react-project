@@ -47,6 +47,12 @@ class Comment extends Component {
         })
     }
 
+    // '좋아요' 수 반영
+    handleUpdateLikes = (likes) => {
+        const {info, updateLikes} = this.props;
+        updateLikes(info.id, likes);
+    }
+
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
@@ -96,7 +102,7 @@ class Comment extends Component {
                                 onClick={this.inputReply} />
                     </div>
                     <div>
-                        <Like likes={likes}/>
+                        <Like likes={likes} onUpdate={this.handleUpdateLikes}/>
                         <span>{this.state.cmtCount}</span>
                     </div>
                     <div>

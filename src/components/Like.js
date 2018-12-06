@@ -11,7 +11,8 @@ class Like extends Component {
      * '좋아요'버튼을 한번 누르면 ++, 그 상태에서 한번 더 누르면 --
      */
     likeCmt = () => {
-        let likes = this.state.likeCount;
+        const {onUpdate} = this.props;
+        let {likes} = this.props;
         let isLike = this.state.like;
 
         if (isLike) {
@@ -20,6 +21,8 @@ class Like extends Component {
         } else {
             likes--;
         }
+        
+        onUpdate(likes);
 
         this.setState({
             like: !isLike,

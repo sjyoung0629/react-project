@@ -28,7 +28,7 @@ class CommentList extends Component {
     }
     
     render() {
-        const {onUpdate, onRemove} = this.props;
+        const {onUpdate, onRemove, updateLikes} = this.props;
         let {data} = this.props;
         // props 렌더링 전 정렬
         if (this.state.bestSort) {
@@ -47,7 +47,8 @@ class CommentList extends Component {
             // info들의 배열을 Comment 컴포넌트로 변환해준다
             info => (<Comment info={info} key={info.id}
                                 onUpdate={onUpdate}
-                                onRemove={onRemove}/>)
+                                onRemove={onRemove}
+                                updateLikes={updateLikes}/>)
         );
         const arr_len = list.length;
 
