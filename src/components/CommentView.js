@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
+import './Comment.css';
 
 class CommentView extends Component {
     // 댓글마다 고유한 id값
-    comment_id = 2;
+    comment_id = 3;
 
     state = {
         information: [{
@@ -17,9 +18,16 @@ class CommentView extends Component {
         {
             id: 1,
             author: 'julia',
-            content: '안녕',
-            likes: 2,
+            content: '안녕~~',
+            likes: 4,
             time: 1544007341933,
+        },
+        {
+            id: 2,
+            author: 'herry0917',
+            content: '???',
+            likes: 1,
+            time: 1544081416151,
         }]
     }
 
@@ -87,7 +95,7 @@ class CommentView extends Component {
     
     render() {
         return (
-            <div>
+            <div className="ContentView">
                 <CommentList data={this.state.information}
                 onUpdate={this.handleUpdate}
                 onRemove={this.handleRemove}

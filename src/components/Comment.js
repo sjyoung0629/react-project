@@ -78,11 +78,11 @@ class Comment extends Component {
 
         return (
             <div className="comment">
-                <div><b>{author}</b></div>
+                <div className="author">{author}</div>
                 {
                     editing ? (
                         <Fragment>
-                            <div>
+                            <div className="contentArea">
                                 <input name="content" value={this.state.content}
                                 onChange={this.handleChange}
                                 onKeyUp={this.handleKeyUp} />
@@ -94,18 +94,18 @@ class Comment extends Component {
                         </Fragment>
                     )
                 }
-                <div>
-                    <div>
+                <div className="commentFooterArea">
+                    <div className="timeReplyArea">
                         <FromNow time={time}/>
                         <span>·</span>
-                        <input type="button" className="reply" value="답글 달기"
-                                onClick={this.inputReply} />
+                        <div className="reply">
+                            <input type="button" className="reply" value="답글 달기"
+                                    onClick={this.inputReply} />
+                        </div>
                     </div>
-                    <div>
+                    <div className="updateArea">
                         <Like likes={likes} onUpdate={this.handleUpdateLikes}/>
                         <span>{this.state.cmtCount}</span>
-                    </div>
-                    <div>
                         <input type="button" value={editing ? "적용" : "수정"}
                                 onClick={this.handleToggleEdit}></input>
                         <input type="button" value="삭제"

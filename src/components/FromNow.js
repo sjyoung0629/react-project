@@ -43,7 +43,7 @@ class FromNow extends Component {
 
     render() {
         return (
-            <div>
+            <div className="time">
                 <span className="fromNow">{this.getTimeAgo()} 전</span>
             </div>
         );

@@ -46,18 +46,20 @@ class CommentForm extends Component {
 
     render() {
         return (
-            <form onKeyUp={this.handleKeyUp}>
-                <div>
-                    <input name="author"
-                    value={this.state.author}
-                    placeholder="아이디"
-                    onChange={this.handleChange}></input>
-                    <input name="content"
+            <form className="commentFormArea" onKeyUp={this.handleKeyUp}>
+                <div className="inputAuthor">
+                    <input name="author" className="inputId"
+                        value={this.state.author}
+                        placeholder="아이디"
+                        onChange={this.handleChange}></input>
+                </div>
+                <div className="inputForm">
+                    <textarea class="inputContent" name="content"
                     value={this.state.content}
                     placeholder="댓글을 달아보세요"
-                    onChange={this.handleChange}></input>
-                    <div>
-                        <input type="button"
+                    onChange={this.handleChange}></textarea>
+                    <div className="submitArea">
+                        <input type="button" className="submitBtn"
                         onClick={this.handleSubmit}
                         value="게시"/>
                     </div>

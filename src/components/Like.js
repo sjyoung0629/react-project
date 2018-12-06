@@ -32,7 +32,7 @@ class Like extends Component {
 
     render() {
         return (
-            <div>
+            <div className="likeArea">
                 <input type="button" value="좋아요" onClick={this.likeCmt}></input>
                 <span>{this.state.likeCount}</span>
             </div>

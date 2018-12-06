@@ -53,17 +53,19 @@ class CommentList extends Component {
         const arr_len = list.length;
 
         return (
-            <div>
-                <div className="sort">
-                <input type="button" name="bestSort" value="추천순"
-                        onClick={this.handleToggleBestSort} />
-                <input type="button" name="recentSort" value="최신순"
-                        onClick={this.handleToggleRecentSort} />
-                </div>
-                <div className="commentList">
-                    <div>
+            <div className="commentListWrap">
+                <div className="commentListFunc">
+                    <div className="commentCount">
                         <span>{arr_len}</span><span>개의 댓글</span>
                     </div>
+                    <div className="commentSort">
+                        <input type="button" name="bestSort" value="추천순"
+                                onClick={this.handleToggleBestSort} />
+                        <input type="button" name="recentSort" value="최신순"
+                                onClick={this.handleToggleRecentSort} />
+                    </div>
+                </div>
+                <div className="commentList">
                     {list}
                 </div>
             </div>
