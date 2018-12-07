@@ -1,20 +1,15 @@
-.ContentView {
-    margin:0 auto;
-    width: 60%;
-    height: 50%;
-    position: relative;
-    padding-top: 200px;
-    padding-bottom: 200px;
-    overflow: auto;
-    border: solid 1px #dce2e6;
-    border-radius: 4px;
+a {
+    cursor: pointer;
+    text-decoration: none;
 }
 
 /* 댓글 보여주는 comment list 영역 */
 .commentListWrap {
     margin:0 auto;
     width: 60%;
+    height: 100%;
     position: relative;
+    padding-top: 80px;
 }
 
 .commentListFunc {
@@ -35,11 +30,28 @@
 
 /* 댓글 정렬 버튼 영역 */
 .commentSort {
-    width: 30%;
     position: absolute;
     display: flex;
     flex-direction: row;
     right: 0;
+    color: #aeb8bd;
+    align-items: center;
+}
+
+.sortSelected {
+    font-weight: bold;
+    color: #1f262a;
+}
+
+.sort {
+    cursor: pointer;
+}
+
+.sortSep {
+    width: 1px;
+    height: 14px;
+    margin: 0 10px;
+    background-color: #aeb8bd;
 }
 
 .commentList {
@@ -52,6 +64,12 @@
 .comment {
     left: 0;
     width: 100%;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.reply {
+    left: 50px;
     position: relative;
     padding-bottom: 10px;
 }
@@ -86,7 +104,7 @@
     color: #aeb8bd;
 }
 
-.reply {
+.replyArea {
     display: inline-block;
     vertical-align: top;
     margin-left: 4px;
@@ -111,8 +129,17 @@
 .commentFormArea {
     display: block;
     margin:0 auto;
-    width: 60%;
+    width: 100%;
 }
+
+.replyFormArea {
+    display: inline-block;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    margin-left: 50px;
+}
+
 .inputAuthor {
     float: left;
     margin-top: 4px;

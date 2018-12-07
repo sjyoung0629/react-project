@@ -12,15 +12,13 @@ class CommentForm extends Component {
         // preventDefault: submit의 기본 이벤트 동작을 막음
         e.preventDefault();
         const state = this.state;
-        const type = this.props.type;
+        // const type = this.props.type;
         // author, content 값이 있을때만 댓글 입력하도록 함
         // 향후 button disabled/abled 로 관리
         if (state.author && state.content) {
             // 댓글 작성한 시간 불러와서 state에 저장
             this.state.time = new Date().getTime();
-            if (type === "main") {
-                this.props.onCreate(this.state);
-            }
+            this.props.onCreate(this.state);
             // submit 후 초기화
             this.setState({
                 author: '',
@@ -45,8 +43,11 @@ class CommentForm extends Component {
     }
 
     render() {
+        const {type} = this.props;
+
         return (
-            <form className="commentFormArea" onKeyUp={this.handleKeyUp}>
+            <form className={(type === "comment") ? "commentFormArea" : "replyFormArea"}
+                    onKeyUp={this.handleKeyUp}>
                 <div className="inputAuthor">
                     <input name="author" className="inputId"
                         value={this.state.author}
@@ -54,7 +55,7 @@ class CommentForm extends Component {
                         onChange={this.handleChange}></input>
                 </div>
                 <div className="inputForm">
-                    <textarea class="inputContent" name="content"
+                    <textarea className="inputContent" name="content"
                     value={this.state.content}
                     placeholder="댓글을 달아보세요"
                     onChange={this.handleChange}></textarea>

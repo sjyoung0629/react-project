@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import CommentForm from './CommentForm';
 import Like from './Like';
 import FromNow from './FromNow';
 
 class Comment extends Component {
     state = {
+        isComment: (this.props.type === "comment"),
         editing: false,
-        reply: false,
     }
 
     // 변경된 부분만 업데이트
@@ -15,29 +14,28 @@ class Comment extends Component {
             return true;
         }
 
-        return this.props.info !== nextProps.info;
+        return this.props.data !== nextProps.data;
     }
 
     // 답글 달기
-    inputReply = (e) => {
-        this.setState({
-            reply: !this.state.reply,
-        })
+    inputReply = () => {
+        const {showReply} = this.props;
+        showReply();
     }
 
     // editing 값에 따라 수정/적용
     handleToggleEdit = () => {
-        const {info, onUpdate} = this.props;
+        const {data, onUpdate} = this.props;
         if (this.state.editing) {
             // 수정 모드: 수정된 content값을 업데이트하도록 함
-            onUpdate(info.id, {
+            onUpdate(data.id, {
                 content: this.state.content,
             });
 
         } else {
             // 적용 모드: 수정된(또는 원본) 내용을 가져와서 State에 세팅
             this.setState({
-                content: info.content,
+                content: data.content,
             });
         }
 
@@ -49,8 +47,8 @@ class Comment extends Component {
 
     // '좋아요' 수 반영
     handleUpdateLikes = (likes) => {
-        const {info, updateLikes} = this.props;
-        updateLikes(info.id, likes);
+        const {data, updateLikes} = this.props;
+        updateLikes(data.id, likes);
     }
 
     handleChange = (e) => {
@@ -68,16 +66,16 @@ class Comment extends Component {
 
     // 댓글 삭제
     handleRemove = () => {
-        const {info, onRemove} = this.props;
-        onRemove(info.id);
+        const {data, onRemove} = this.props;
+        onRemove(data.id);
     }
 
     render() {
-        const {author, content, likes, time} = this.props.info;
-        const {editing, reply} = this.state;
+        const {author, content, likes, time} = this.props.data;
+        const {isComment, editing} = this.state;
 
         return (
-            <div className="comment">
+            <div className={isComment ? "comment" : "reply"}>
                 <div className="author">{author}</div>
                 {
                     editing ? (
@@ -97,11 +95,16 @@ class Comment extends Component {
                 <div className="commentFooterArea">
                     <div className="timeReplyArea">
                         <FromNow time={time}/>
-                        <span>·</span>
-                        <div className="reply">
-                            <input type="button" className="reply" value="답글 달기"
-                                    onClick={this.inputReply} />
-                        </div>
+                        {
+                            isComment ? (
+                                <Fragment>
+                                    <span>·</span>
+                                    <a className="replyArea" onClick={this.inputReply}>
+                                        <span>답글 달기</span>
+                                    </a>
+                                </Fragment>
+                            ) : ''
+                        }
                     </div>
                     <div className="updateArea">
                         <Like likes={likes} onUpdate={this.handleUpdateLikes}/>
@@ -112,13 +115,6 @@ class Comment extends Component {
                                 onClick={this.handleRemove}></input>
                     </div>
                 </div>
-                {
-                    reply && (
-                        <Fragment>
-                            <CommentForm type="sub"/>
-                        </Fragment>
-                    )
-                }
             </div>
         );
     }
