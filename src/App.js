@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
-import CommentView from './components/CommentView';
-// import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import Editor from './components/Editor';
+import SearchList from './components/SearchList';
+import CommentView from './components/CommentView';
 
 class App extends Component {
   render() {
     return (
-      <div id="root" className="wrap_comment">
-        <CommentView />
-      </div>
+      <Router>
+        <div>
+          <Route exact path="/editor" component={Editor}/>
+          <Route exact path="/searchList" component={SearchList}/>
+          <Route path="/commentView" component={CommentView}/>
+        </div>
+      </Router>
     );
   }
 }
